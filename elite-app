@@ -1,0 +1,115 @@
+html_content = """
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Elite Sports AI - Pro Dashboard</title>
+    <script src='https://telegram.org/js/telegram-web-app.js'></script>
+    <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap' rel='stylesheet'>
+    <style>
+        :root {
+            --bg: #030712;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent: #3b82f6;
+            --gold: #fbbf24;
+            --danger: #ef4444;
+            --text: #f8fafc;
+        }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at top right, #1e3a8a, transparent), radial-gradient(circle at bottom left, #1e1b4b, transparent);
+            color: var(--text);
+            margin: 0; padding: 15px; overflow-x: hidden;
+        }
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .header { text-align: center; padding: 20px 0; animation: fadeInDown 0.8s; }
+        .gold-text { color: var(--gold); text-shadow: 0 0 15px rgba(251, 191, 36, 0.5); font-weight: 800; }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .nav-item {
+            padding: 15px; text-align: center; background: rgba(255,255,255,0.05); border-radius: 16px; font-size: 14px;
+        }
+        .nav-item span { display: block; font-size: 20px; margin-bottom: 5px; }
+        .btn-main {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white; border: none; padding: 16px; border-radius: 18px;
+            width: 100%; font-size: 18px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+        .btn-main:active { transform: scale(0.95); }
+        .vip-badge {
+            background: linear-gradient(90deg, #fbbf24, #d97706);
+            color: #000; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800;
+            display: inline-block; margin-bottom: 10px;
+        }
+        #admin-panel { display: none; border: 2px solid var(--danger); position: relative; overflow: hidden; }
+        #admin-panel::before { content: 'ADMIN'; position: absolute; top: -10px; right: -10px; background: var(--danger); font-size: 10px; padding: 15px 15px 5px; transform: rotate(45deg); }
+        
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class='header'>
+        <h1 class='gold-text'>🏆 ELITE AI ANALYTICS</h1>
+        <p id='welcome-msg' style='opacity: 0.8;'>مرحباً بك في عصر التوقعات الذكية</p>
+    </div>
+
+    <div class='glass-card'>
+        <div class='vip-badge'>حالة العضوية: VIP ELITE</div>
+        <div class="nav-grid">
+            <div class="nav-item"><span>📈</span>دقة اليوم: 98%</div>
+            <div class="nav-item"><span>⚽</span>المباريات: 14</div>
+        </div>
+        <button class='btn-main' onclick='requestAnalysis()'>🔥 الحصول على قسيمة VIP</button>
+    </div>
+
+    <div class='glass-card'>
+        <h3>📊 إحصائيات السوق الحالية</h3>
+        <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+            تم رصد تحركات غير طبيعية في أسواق المراهنات الآسيوية لمباريات الليلة. المحرك جاهز للتحليل.
+        </p>
+    </div>
+
+    <div id='admin-panel' class='glass-card'>
+        <h3 style='color: var(--danger);'>🛠️ مركز تحكم الإدارة</h3>
+        <div class="nav-grid">
+            <button class="nav-item" style="border:none; color:white; background:rgba(239,68,68,0.2)" onclick="tg.close()">تحديث السيرفر</button>
+            <button class="nav-item" style="border:none; color:white; background:rgba(255,255,255,0.1)" onclick="tg.close()">كشف المستخدمين</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.setHeaderColor('#030712');
+
+        document.getElementById('welcome-msg').innerText = `جاهز للتحليل يا ${tg.initDataUnsafe.user.first_name}؟`;
+
+        const MY_ADMIN_ID = "8247475893";
+        if (String(tg.initDataUnsafe.user.id) === MY_ADMIN_ID) {
+            document.getElementById('admin-panel').style.display = 'block';
+        }
+
+        function requestAnalysis() {
+            tg.HapticFeedback.impactOccurred('heavy');
+            tg.sendData("ACTION_REQUEST_VIP_ANALYSIS");
+            tg.close();
+        }
+    </script>
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Done! Professional index.html created. Upload this to GitHub Pages.")
